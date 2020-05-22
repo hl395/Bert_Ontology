@@ -1,0 +1,62 @@
+finding of hormone level
+increased androgen level
+increased testosterone level
+
+measurement finding above reference range
+increased androgen level
+androgen excess caused by drug
+
+size finding
+increased diameter
+
+intercostal neuralgia
+postinfective intercostal neuralgia
+intercostal post-herpetic neuralgia
+
+postinfective peripheral neuralgia
+postinfective intercostal neuralgia
+intercostal post-herpetic neuralgia
+
+primary malignant neoplasm of supraglottis
+primary malignant neoplasm of false vocal cord
+
+malignant tumor of false cord
+primary malignant neoplasm of false vocal cord
+
+overgenerosity
+giving away money
+
+bilateral traumatic amputation of lower limbs
+traumatic bilateral amputation of leg with complication
+
+measurement finding below reference range
+decreased carbohydrate
+decreased glucose level
+
+measurement finding below reference range
+decreased carbohydrate
+decreased fructose
+
+measurement finding below reference range
+decreased carbohydrate
+decreased glycogen
+
+measurement finding below reference range
+decreased carbohydrate
+decreased pentose
+
+measurement finding below reference range
+decreased carbohydrate
+decreased galactose
+
+measurement finding below reference range
+decreased carbohydrate
+decreased lactose
+
+measurement finding below reference range
+decreased carbohydrate
+decreased ascorbic acid
+
+measurement finding below reference range
+decreased carbohydrate
+decreased mannoheptulose
