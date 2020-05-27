@@ -1,7 +1,8 @@
 # Bert_Ontology
 Experiment with training BERT for ontology engeneering.
 
-## NJIT Kong usage
+## Prerequisite: NJIT Kong 
+### SSH to Kong Server
 To use Kong, you need to SSH to the Kong server. You are free to use other SSH client to connect to Kong. Here is an example of using MobaXterm for Windows users. 
 1. Go to [njit software download](http://ist.njit.edu/software-available-download/)
 2. Download and install MobaXterm (for Windows user only).
@@ -17,7 +18,7 @@ To customize your own Python environment, you need to install Anaconda locally i
 5. Update `~/.bashrc` file to link the 'python' command to your local python. Use `which python` to verify that you are using your local python instead of global python.
 6. Use `conda list` to verify the installed packages.
 
-### Run job on Kong
+### Run a Job on Kong
 In contrast to run a python file using `python my_file.py`, you need to submit this job to a job queue on Kong server and Kong will schedule this job when the resource is free.
 You can follow the steps below to submit a job to Kong:
 1. Create your my_file.py and make sure all the required modules/packages are installed by run `conda list`.
@@ -32,8 +33,6 @@ Most importantly, the script should include `python my_file.py` at the end to ru
 4. Use `qsub my_file.sh` to submit this job to Kong. You will see a job id assigned to your submission.  
 5. Use `qstat -u *Your_UNI* ` to check your job status. 
 6. After Kong finishes running your job, the console output will be write to a file named with your job id and job name.
-
-
 
  
 ### Useful Commands on Kong
