@@ -1,7 +1,8 @@
 # Bert_Ontology
 Experiment with training BERT for ontology engeneering.
 
-## Prerequisite: NJIT Kong 
+---
+## Prerequisite: Kong Server 
 ### SSH to Kong Server
 To use Kong, you need to SSH to the Kong server. You are free to use other SSH client to connect to Kong. Here is an example of using MobaXterm for Windows users. 
 1. Go to [njit software download](http://ist.njit.edu/software-available-download/)
@@ -45,6 +46,7 @@ qlogin -l hostname=node437 -q datasci  // log into node 437
 
 nvidia-smi    // after run the above command, check GPU usage of node 437 
 ```
+---
 
 ## 1. Environment configuration:
 ### 1.1. Hardware requirement (Recommended or better)
