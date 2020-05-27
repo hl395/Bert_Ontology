@@ -2,21 +2,40 @@
 Experiment with training BERT for ontology engeneering.
 
 ## NJIT Kong usage
+To use Kong, you need to SSH to the Kong server. You are free to use other SSH client to connect to Kong. Here is an example of using MobaXterm for Windows users. 
 1. Go to [njit software download](http://ist.njit.edu/software-available-download/)
 2. Download and install MobaXterm (for Windows user only).
 3. SSH to Kong.njit.edu with port 22.
 ![alt text](TestBert/image/SSH_Connection.PNG)
 
 ### Install Anaconda (Local)
-To customize your own Python environment, you need to install Anaconda locally instead of using the global Anaconda which is managed by school.
+To customize your own Python environment, you need to install Anaconda locally instead of using the Kong's global Anaconda.
 1. Download [Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh) for linux.
-2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to your directory on Kong. 
+2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to any of your directory on Kong. 
 3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
 4. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`
-5. Update `~/.bashrc` file to link the 'python' command to your local python. 
+5. Update `~/.bashrc` file to link the 'python' command to your local python. Use `which python` to verify that you are using your local python instead of global python.
+6. Use `conda list` to verify the installed packages.
+
+### Run job on Kong
+In contrast to run a python file using `python my_file.py`, you need to submit this job to a job queue on Kong server and Kong will schedule this job when the resource is free.
+You can follow the steps below to submit a job to Kong:
+1. Create your my_file.py and make sure all the required modules/packages are installed by run `conda list`.
+2. Create a my_file.sh script follow the [template]() in the same directory as the python file you want to execute for simplicity. 
+3. Change the following parameters in the script accordingly:
+```angular2
+    #$ -N job_name  // set job name
+    #$ -q datasci  // set queue to run the job
+    #$ -node=437   // set to run the job on node437
+```
+Most importantly, the script should include `python my_file.py` at the end to run your my_file.py.
+4. Use `qsub my_file.sh` to submit this job to Kong. You will see a job id assigned to your submission.  
+5. Use `qstat -u *Your_UNI* ` to check your job status. 
+6. After Kong finishes running your job, the console output will be write to a file named with your job id and job name.
 
 
 
+ 
 ### Useful Commands on Kong
 ```
 qstat -f | grep datasci   // show status of all datasic nodes usage
@@ -33,6 +52,7 @@ nvidia-smi    // after run the above command, check GPU usage of node 437
 * NVIDIA RTX Titan with 24GB GDDR6 memory
 * Driver version == 418.56
 * CUDA version == 10.1
+This is the default configuration of node437 on Kong. 
 
 ### 1.2. Software requirement
 * Python 3.6 
