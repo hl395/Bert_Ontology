@@ -136,16 +136,17 @@ index	#1 ID	#2 ID	#1 String	#2 String
 A short version of the example file for the pre-training data can be found at [test.tsv](TestBert/data/test.tsv) in the GitHub repository.
 
 
-## 4.	Execute program
-### 4.1.	Preparation
-* a)	The program repository can be cloned using command:
-`git clone https://github.com/hl395/Bert_Ontology.git`
+## 4. Execute program
+### 4.1. Preparation
+* a) The program repository can be cloned using command: \
+`git clone https://github.com/hl395/Bert_Ontology.git` \
 The hardware compatibility and software requirement should be verified before executing the program.  
-* b)	Download the pre-trained BERT model, e.g. BERTBASE uncased model
-BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from:  https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
+* b) Download the pre-trained BERT model, e.g. BERTBASE uncased model
+BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
+https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip \
 The downloaded BERT model should include the “vocab.txt” file and “bert_config.json” and three bert checkpoint files, “bert_model.ckpt.meta”, “bert_model.ckpt.index”, and “bert_model.ckpt.data-00000-of-00001”. 
 
-### 4.2.	Pre-training
+### 4.2. Pre-training
 #### 4.2.1.	Create pre-training data
 The parameters used to control this data creation are specified in the [creating_pretraining_data.py](TestBert/create_pretraining_data.py). The required parameters include:
   ```
@@ -188,7 +189,7 @@ The usage of parameters can be referred at the vanilla BERT GitHub page.
 To pre-training the downloaded BERT with our own corpus, run `python run_pretraining.py`.
 After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” Note that the obtained new model’s name could vary depends on the number of training steps are used. However, the model still consists of three files and checkpoint file. An example using the parameters above will generate a model with three files as follows: “model.ckpt-100000.meta”, “model.ckpt-100000.index”, and “model.ckpt-100000.data-00000-of-00001” with the same number 100000 in their names as it is the value used as the number of training steps.
 
-### 4.3.	Fine-tuning
+### 4.3. Fine-tuning
 To fine-tune the obtained model from 4.2, we run [run_classifier_hao.py](TestBert/run_classifier_hao.py) with specifying the following required parameters:
 ```
 FLAGS.bert_config_file = “/path/to/downloaded_BERT_model/bert_config.json”
@@ -209,13 +210,13 @@ The usage of parameters can be referred at the vanilla BERT GitHub page.
 To fine-tune the pre-trained BERT with concept pairs, run `python run_classifier_hao.py`.
 After fine-tuning the BERT model as an IS-A relationship classifier, the obtained classifier is saved to the output directory in “/path/to/fine_tuned_model_directory” where the value of “FLAGS.output_dir” is specified. 
 
-### 4.4.	Testing
+### 4.4. Testing
 The testing is performed after the model is fine-tuned in 4.3, because we turn on the flag for prediction by setting `FLAGS.do_predict = True`. \
 The fine-tuned model’s prediction is saved in the “test_results.tsv” file in the directory of “/path/to/fine_tuned_model_directory.” \
 Note that we only need to fine-tune the model once, and then use the obtained model to test on different testing data. \
 This can be achieved by update the testing sample, i.e. “test.tsv” file with new testing data, and set the `FLAGS.do_train = False` and `FLAGS.do_eval = False`.
 
-### 4.5.	Evaluation
+### 4.5. Evaluation
 For each testing concept pair, our model predicts the probabilities that the two concepts should be connected by IS-A and not, respectively. The results are recorded in the “test_results.tsv” file. \
 Use “output/read_results.py” to read the true results and prediction results to evaluate the model’s performance. Note that you need to specify the directory of the "test.tsv" file and the “test_results.tsv” file inside the read_results.py. \
 The metrics used including Precision, Recall, F1 and F2 scores, the micro average and macro average of these metrics are also calculated. 
