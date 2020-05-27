@@ -53,6 +53,7 @@ nvidia-smi    // after run the above command, check GPU usage of node 437
 * NVIDIA RTX Titan with 24GB GDDR6 memory
 * Driver version == 418.56
 * CUDA version == 10.1
+
 This is the default configuration of node437 on Kong. 
 
 ### 1.2. Software requirement
@@ -63,7 +64,8 @@ This is the default configuration of node437 on Kong.
 * numpy==1.16.4
 * pandas==0.23.0
 * scikit-learn==0.21.2
-* tensorflow-gpu==1.13.1\
+* tensorflow-gpu==1.13.1
+
 To install required python modules, run `pip3 install -r requirements.txt`
 
 
@@ -141,8 +143,7 @@ A short version of the example file for the pre-training data can be found at [t
 * a) The program repository can be cloned using command: \
 `git clone https://github.com/hl395/Bert_Ontology.git` \
 The hardware compatibility and software requirement should be verified before executing the program.  
-* b) Download the pre-trained BERT model, e.g. BERTBASE uncased model
-BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
+* b) Download the pre-trained BERT model, e.g. BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
 https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip \
 The downloaded BERT model should include the “vocab.txt” file and “bert_config.json” and three bert checkpoint files, “bert_model.ckpt.meta”, “bert_model.ckpt.index”, and “bert_model.ckpt.data-00000-of-00001”. 
 
