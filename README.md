@@ -7,6 +7,27 @@ Experiment with training BERT for ontology engeneering.
 3. SSH to Kong.njit.edu with port 22.
 ![alt text](TestBert/image/SSH_Connection.PNG)
 
+### Install Anaconda (Local)
+To customize your own Python environment, you need to install Anaconda locally instead of using the global Anaconda which is managed by school.
+1. Download [Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh) for linux.
+2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to your directory on Kong. 
+3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
+4. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`
+5. Update `~/.bashrc` file to link the 'python' command to your local python. 
+
+
+
+### Useful Commands on Kong
+```
+qstat -f | grep datasci   // show status of all datasic nodes usage
+
+qstat -u *Your_UNI*   // show your own job status
+
+qlogin -l hostname=node437 -q datasci  // log into node 437 
+
+nvidia-smi    // after run the above command, check GPU usage of node 437 
+```
+
 ## 1. Environment configuration:
 ### 1.1. Hardware requirement (Recommended or better)
 * NVIDIA RTX Titan with 24GB GDDR6 memory
@@ -67,7 +88,7 @@ Quality	#1 ID	#2 ID	#1 String	#2 String
 1	366054000	301976001	finding of fluorescein tear drainage	fluorescein tear drainage impaired
 0	295116004	295019008	allergy to chymotrypsin	allergy to mannitol
 ```
-A short version of the three example files, “train.tsv”, “dev.tsv”, and “test.tsv” for the pre-training data can be found at the “data” directory in the GitHub repository.
+A short version of the three example files, `train.tsv`, `dev.tsv`, and `test.tsv` for the pre-training data can be found at the “data” directory in this repository.
 
 ### 3.3.	Test data format
 To test the trained IS-A relationship classifier, we extract both IS-A connected concept pairs as positive testing sample, and concept pairs that are not connected as negative testing sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names. The information is organized into five columns: 
@@ -88,7 +109,7 @@ index	#1 ID	#2 ID	#1 String	#2 String
 6735	762366009	735906001	prolapse of left eye co-occurrent with laceration	effects of water pressure	0
 ……
 ```
-A short version of the example file for the pre-training data can be found at /data/testing_data_example.csv in the GitHub repository.
+A short version of the example file for the pre-training data can be found at /data/test.tsv in the GitHub repository.
 
 
 ## 4.	Execute program
@@ -103,6 +124,7 @@ The downloaded BERT model should include the “vocab.txt” file and “bert_co
 ### 4.2.	Pre-training
 #### 4.2.1.	Create pre-training data
 The parameters used to control this data creation are specified in the “creating_pretraining_data.py”. The required parameters include:
+  ```
   FLAGS.input_file = “/path/to/pre-training_data_example.txt”
   FLAGS.output_file = “/path/to/tf_examples.tfrecord” 
   FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt”
@@ -112,14 +134,16 @@ The parameters used to control this data creation are specified in the “creati
   FLAGS.masked_lm_prob = 0.15
   FLAGS.random_seed = 12345
   FLAGS.dupe_factor = 5
+```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To generate pre-training data, run “python creating_pretraining_data.py”.
+To generate pre-training data, run `python creating_pretraining_data.py`.
 After the pre-training data is generated, it is wrote to the output directory named by “tf_examples.tfrecord.” 
  
 #### 4.2.2.	Run pre-training 
 The parameters used to control pre-training are specified in the “run_pretraining.py”. The required parameters include:
-  FLAGS.input_file = “/path/to/ tf_examples.tfrecord” (from 4.2.1)
+  ```
+  FLAGS.input_file = “/path/to/tf_examples.tfrecord” (from 4.2.1)
   FLAGS.output_dir = “/path/to/pre_trained_model_directory” 
   FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt” (the same as in 4.2.1)
   FLAGS.do_train = True (perform training)
@@ -134,13 +158,15 @@ The parameters used to control pre-training are specified in the “run_pretrain
   FLAGS.num_warmup_steps = 5000
   FLAGS.save_checkpoints_steps = 20000
   FLAGS.learning_rate = 2e-5
+```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To pre-training the downloaded BERT with our own corpus, run “python run_pretraining.py”.
+To pre-training the downloaded BERT with our own corpus, run `python run_pretraining.py`.
 After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” Note that the obtained new model’s name could vary depends on the number of training steps are used. However, the model still consists of three files and checkpoint file. An example using the parameters above will generate a model with three files as follows: “model.ckpt-100000.meta”, “model.ckpt-100000.index”, and “model.ckpt-100000.data-00000-of-00001” with the same number 100000 in their names as it is the value used as the number of training steps.
 
 ### 4.3.	Fine-tuning
 To fine-tune the obtained model from 4.2, we run “run_classifier_hao.py” with specifying the following required parameters:
+```
 FLAGS.bert_config_file = “/path/to/downloaded_BERT_model/bert_config.json”
 FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt"
 FLAGS.init_checkpoint = “/path/to/pre_trained_model_directory” (in 4.2) 
@@ -153,9 +179,10 @@ FLAGS.do_train = True (perform training)
 FLAGS.do_eval = True (perform evaluation/validation)
 FLAGS.do_predict = True (perform prediction)
 FLAGS.task_name = "MRPC" 
+```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To fine-tune the pre-trained BERT with concept pairs, run “python run_classifier_hao.py”.
+To fine-tune the pre-trained BERT with concept pairs, run `python run_classifier_hao.py`.
 After fine-tuning the BERT model as an IS-A relationship classifier, the obtained classifier is saved to the output directory in “/path/to/fine_tuned_model_directory” where the value of “FLAGS.output_dir” is specified. 
 
 ### 4.4.	Testing
