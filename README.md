@@ -101,7 +101,8 @@ To fine-tune BERT as IS-A relationship classifier, we extract IS-A connected con
 * Column “#1 ID” represents the SNOMED ID of the first concept. 
 * Column “#2 ID” represents the SNOMED ID of the second concept. 
 * Column “#1 String” represents the SNOMED name of the first concept. 
-* Column “#2 String” represents the SNOMED name of the second concept. 
+* Column “#2 String” represents the SNOMED name of the second concept.
+
 Columns are separated using Tab as the delimiter. 
 An example of the fine-tuning data is as follows:
 ```
@@ -118,6 +119,7 @@ To test the trained IS-A relationship classifier, we extract both IS-A connected
 + Column “#2 ID” represents the SNOMED ID of the second concept. 
 + Column “#1 String” represents the SNOMED name of the first concept. 
 + Column “#2 String” represents the SNOMED name of the second concept. 
+
 Columns are separated using Tab as the delimiter. 
 Note that the IS-A label of this pair is also included for evaluation simplicity. The true label is not visible or used in testing our classifier.
 An example of the fine-tuning data is as follows:
