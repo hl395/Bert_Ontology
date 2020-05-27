@@ -5,7 +5,7 @@ Experiment with training BERT for ontology engeneering.
 1. Go to [njit software download](http://ist.njit.edu/software-available-download/)
 2. Download and install MobaXterm (for Windows user only).
 3. SSH to Kong.njit.edu with port 22.
-![alt text](TestBert/image/SSH Connection.PNG)
+![alt text](TestBert/image/SSH_Connection.PNG)
 
 ## 1. Environment configuration:
 ### 1.1. Hardware requirement (Recommended or better)
@@ -27,9 +27,9 @@ To install required python modules, run `pip3 install -r requirements.txt`
 
 ## 2.	Source code
 The source code is maintained on GitHub repository with the link below:\
-https://github.com/hl395/Bert_Ontology\
+https://github.com/hl395/Bert_Ontology \
 The pre-trained BERT model, released by Google can be found at:\
-https://github.com/google-research/bert\
+https://github.com/google-research/bert
 
 
 ## 3.	Dataset format
@@ -49,7 +49,7 @@ hyperpigmentation of skin
 inherited cutaneous hyperpigmentation
 terminal osseous dysplasia and pigmentary defect syndrome
 ```
-A short version of the example file for the pre-training data can be found at /data/pre_training_data_example.txt in the GitHub repository.  
+A short version of the example file for the pre-training data can be found at [pre_training_data_example.txt](TestBert/data/pre_training_data_example.txt) in the GitHub repository.  
      
 ### 3.2.	Fine-tuning data format
 For fine-tuning, we need three files: [train.tsv](TestBert/data/train.tsv) for training, [dev.tsv](TestBert/data/dev.tsv) for validation, and [test.tsv](TestBert/data/test.tsv) for prediction. The “train.tsv” and “dev.tsv” files share the same format while the “test.tsv” is different by hiding the true labels.
