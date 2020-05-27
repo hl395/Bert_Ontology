@@ -96,12 +96,12 @@ A short version of the example file for the pre-training data can be found at [p
 ### 3.2.	Fine-tuning data format
 For fine-tuning, we need three files: [train.tsv](TestBert/data/train.tsv) for training, [dev.tsv](TestBert/data/dev.tsv) for validation, and [test.tsv](TestBert/data/test.tsv) for prediction. The “train.tsv” and “dev.tsv” files share the same format while the “test.tsv” is different by hiding the true labels.
 
-To fine-tune BERT as IS-A relationship classifier, we extract IS-A connected concept pairs as positive training sample, and concept pairs that are not connected as negative training sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names, and the IS-A label of this pair. The information is organized into five columns: \
-•	Column “Quality” indicates the IS-A label between the two concepts, i.e. the classification label. \
-•	Column “#1 ID” represents the SNOMED ID of the first concept. \
-•	Column “#2 ID” represents the SNOMED ID of the second concept. \
-•	Column “#1 String” represents the SNOMED name of the first concept. \
-•	Column “#2 String” represents the SNOMED name of the second concept. \
+To fine-tune BERT as IS-A relationship classifier, we extract IS-A connected concept pairs as positive training sample, and concept pairs that are not connected as negative training sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names, and the IS-A label of this pair. The information is organized into five columns: 
+* Column “Quality” indicates the IS-A label between the two concepts, i.e. the classification label. 
+* Column “#1 ID” represents the SNOMED ID of the first concept. 
+* Column “#2 ID” represents the SNOMED ID of the second concept. 
+* Column “#1 String” represents the SNOMED name of the first concept. 
+* Column “#2 String” represents the SNOMED name of the second concept. 
 Columns are separated using Tab as the delimiter. 
 An example of the fine-tuning data is as follows:
 ```
@@ -112,12 +112,12 @@ Quality	#1 ID	#2 ID	#1 String	#2 String
 A short version of the three example files, [train.tsv](TestBert/data/train.tsv), [dev.tsv](TestBert/data/dev.tsv), and [test.tsv](TestBert/data/test.tsv) for the pre-training data can be found at the “data” directory in this repository.
 
 ### 3.3.	Test data format
-To test the trained IS-A relationship classifier, we extract both IS-A connected concept pairs as positive testing sample, and concept pairs that are not connected as negative testing sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names. The information is organized into five columns: \
-•	Column “Quality” indicates the IS-A label between the two concepts. \
-•	Column “#1 ID” represents the SNOMED ID of the first concept. \
-•	Column “#2 ID” represents the SNOMED ID of the second concept. \
-•	Column “#1 String” represents the SNOMED name of the first concept. \
-•	Column “#2 String” represents the SNOMED name of the second concept. \
+To test the trained IS-A relationship classifier, we extract both IS-A connected concept pairs as positive testing sample, and concept pairs that are not connected as negative testing sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names. The information is organized into five columns: 
++ Column “Quality” indicates the IS-A label between the two concepts.
++ Column “#1 ID” represents the SNOMED ID of the first concept. 
++ Column “#2 ID” represents the SNOMED ID of the second concept. 
++ Column “#1 String” represents the SNOMED name of the first concept. 
++ Column “#2 String” represents the SNOMED name of the second concept. 
 Columns are separated using Tab as the delimiter. 
 Note that the IS-A label of this pair is also included for evaluation simplicity. The true label is not visible or used in testing our classifier.
 An example of the fine-tuning data is as follows:
