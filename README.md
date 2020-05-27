@@ -214,7 +214,7 @@ This can be achieved by update the testing sample, i.e. “test.tsv” file with
 
 ### 4.5.	Evaluation
 For each testing concept pair, our model predicts the probabilities that the two concepts should be connected by IS-A and not, respectively. The results are recorded in the “test_results.tsv” file. \
-Use “output/read_results.py” to read the true results and prediction results to evaluate the model’s performance. Note that you need to specify the directory of the "test.tsv" file and the “test_results.tsv” file inside the read_results.py. \ 
+Use “output/read_results.py” to read the true results and prediction results to evaluate the model’s performance. Note that you need to specify the directory of the "test.tsv" file and the “test_results.tsv” file inside the read_results.py. \
 The metrics used including Precision, Recall, F1 and F2 scores, the micro average and macro average of these metrics are also calculated. 
 
 
