@@ -96,12 +96,12 @@ A short version of the example file for the pre-training data can be found at [p
 ### 3.2.	Fine-tuning data format
 For fine-tuning, we need three files: [train.tsv](TestBert/data/train.tsv) for training, [dev.tsv](TestBert/data/dev.tsv) for validation, and [test.tsv](TestBert/data/test.tsv) for prediction. The “train.tsv” and “dev.tsv” files share the same format while the “test.tsv” is different by hiding the true labels.
 
-To fine-tune BERT as IS-A relationship classifier, we extract IS-A connected concept pairs as positive training sample, and concept pairs that are not connected as negative training sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names, and the IS-A label of this pair. The information is organized into five columns: 
-•	Column “Quality” indicates the IS-A label between the two concepts, i.e. the classification label. 
-•	Column “#1 ID” represents the SNOMED ID of the first concept.
-•	Column “#2 ID” represents the SNOMED ID of the second concept.
-•	Column “#1 String” represents the SNOMED name of the first concept.
-•	Column “#2 String” represents the SNOMED name of the second concept.
+To fine-tune BERT as IS-A relationship classifier, we extract IS-A connected concept pairs as positive training sample, and concept pairs that are not connected as negative training sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names, and the IS-A label of this pair. The information is organized into five columns: \
+•	Column “Quality” indicates the IS-A label between the two concepts, i.e. the classification label. \
+•	Column “#1 ID” represents the SNOMED ID of the first concept. \
+•	Column “#2 ID” represents the SNOMED ID of the second concept. \
+•	Column “#1 String” represents the SNOMED name of the first concept. \
+•	Column “#2 String” represents the SNOMED name of the second concept. \
 Columns are separated using Tab as the delimiter. 
 An example of the fine-tuning data is as follows:
 ```
@@ -109,15 +109,15 @@ Quality	#1 ID	#2 ID	#1 String	#2 String
 1	366054000	301976001	finding of fluorescein tear drainage	fluorescein tear drainage impaired
 0	295116004	295019008	allergy to chymotrypsin	allergy to mannitol
 ```
-A short version of the three example files, `train.tsv`, `dev.tsv`, and `test.tsv` for the pre-training data can be found at the “data” directory in this repository.
+A short version of the three example files, [train.tsv](TestBert/data/train.tsv), [dev.tsv](TestBert/data/dev.tsv), and [test.tsv](TestBert/data/test.tsv) for the pre-training data can be found at the “data” directory in this repository.
 
 ### 3.3.	Test data format
-To test the trained IS-A relationship classifier, we extract both IS-A connected concept pairs as positive testing sample, and concept pairs that are not connected as negative testing sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names. The information is organized into five columns: 
-•	Column “Quality” indicates the IS-A label between the two concepts. 
-•	Column “#1 ID” represents the SNOMED ID of the first concept.
-•	Column “#2 ID” represents the SNOMED ID of the second concept.
-•	Column “#1 String” represents the SNOMED name of the first concept.
-•	Column “#2 String” represents the SNOMED name of the second concept.
+To test the trained IS-A relationship classifier, we extract both IS-A connected concept pairs as positive testing sample, and concept pairs that are not connected as negative testing sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names. The information is organized into five columns: \
+•	Column “Quality” indicates the IS-A label between the two concepts. \
+•	Column “#1 ID” represents the SNOMED ID of the first concept. \
+•	Column “#2 ID” represents the SNOMED ID of the second concept. \
+•	Column “#1 String” represents the SNOMED name of the first concept. \
+•	Column “#2 String” represents the SNOMED name of the second concept. \
 Columns are separated using Tab as the delimiter. 
 Note that the IS-A label of this pair is also included for evaluation simplicity. The true label is not visible or used in testing our classifier.
 An example of the fine-tuning data is as follows:
@@ -130,7 +130,7 @@ index	#1 ID	#2 ID	#1 String	#2 String
 6735	762366009	735906001	prolapse of left eye co-occurrent with laceration	effects of water pressure	0
 ……
 ```
-A short version of the example file for the pre-training data can be found at /data/test.tsv in the GitHub repository.
+A short version of the example file for the pre-training data can be found at [test.tsv](TestBert/data/test.tsv) in the GitHub repository.
 
 
 ## 4.	Execute program
@@ -144,7 +144,7 @@ The downloaded BERT model should include the “vocab.txt” file and “bert_co
 
 ### 4.2.	Pre-training
 #### 4.2.1.	Create pre-training data
-The parameters used to control this data creation are specified in the “creating_pretraining_data.py”. The required parameters include:
+The parameters used to control this data creation are specified in the [creating_pretraining_data.py](TestBert/create_pretraining_data.py). The required parameters include:
   ```
   FLAGS.input_file = “/path/to/pre-training_data_example.txt”
   FLAGS.output_file = “/path/to/tf_examples.tfrecord” 
@@ -162,7 +162,7 @@ To generate pre-training data, run `python creating_pretraining_data.py`.
 After the pre-training data is generated, it is wrote to the output directory named by “tf_examples.tfrecord.” 
  
 #### 4.2.2.	Run pre-training 
-The parameters used to control pre-training are specified in the “run_pretraining.py”. The required parameters include:
+The parameters used to control pre-training are specified in the [run_pretraining.py](TestBert/run_pretraining_data.py). The required parameters include:
   ```
   FLAGS.input_file = “/path/to/tf_examples.tfrecord” (from 4.2.1)
   FLAGS.output_dir = “/path/to/pre_trained_model_directory” 
@@ -186,7 +186,7 @@ To pre-training the downloaded BERT with our own corpus, run `python run_pretrai
 After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” Note that the obtained new model’s name could vary depends on the number of training steps are used. However, the model still consists of three files and checkpoint file. An example using the parameters above will generate a model with three files as follows: “model.ckpt-100000.meta”, “model.ckpt-100000.index”, and “model.ckpt-100000.data-00000-of-00001” with the same number 100000 in their names as it is the value used as the number of training steps.
 
 ### 4.3.	Fine-tuning
-To fine-tune the obtained model from 4.2, we run “run_classifier_hao.py” with specifying the following required parameters:
+To fine-tune the obtained model from 4.2, we run [run_classifier_hao.py](TestBert/run_classifier_hao.py) with specifying the following required parameters:
 ```
 FLAGS.bert_config_file = “/path/to/downloaded_BERT_model/bert_config.json”
 FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt"
