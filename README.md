@@ -75,6 +75,7 @@ https://github.com/google-research/bert
 
 ## 3.	Dataset format
 ### 3.1.	Pre-training data format
+In general pre-training, the corpus are general English text. The input is a plain text file, with one sentence per line. Documents are delimited by empty lines. The output is a set of tf.train.Examples serialized into TFRecord file format. \
 In our task, the pre-training data is concept triples. Each triple contains three concepts, with one concept per line. An empty line is used to separate triples. In cases a focus concept has no parent or child, there are only two concepts in the corresponding triple. 
 An example of pre-training data is as follows:
 ```
@@ -96,7 +97,7 @@ A short version of the example file for the pre-training data can be found at [p
 For fine-tuning, we need three files: [train.tsv](TestBert/data/train.tsv) for training, [dev.tsv](TestBert/data/dev.tsv) for validation, and [test.tsv](TestBert/data/test.tsv) for prediction. The “train.tsv” and “dev.tsv” files share the same format while the “test.tsv” is different by hiding the true labels.
 
 To fine-tune BERT as IS-A relationship classifier, we extract IS-A connected concept pairs as positive training sample, and concept pairs that are not connected as negative training sample. Each concept pair is recorded as one string in one line, with the two concepts’ ids and names, and the IS-A label of this pair. The information is organized into five columns: 
-•	Column “Quality” indicates the IS-A label between the two concepts. 
+•	Column “Quality” indicates the IS-A label between the two concepts, i.e. the classification label. 
 •	Column “#1 ID” represents the SNOMED ID of the first concept.
 •	Column “#2 ID” represents the SNOMED ID of the second concept.
 •	Column “#1 String” represents the SNOMED name of the first concept.
@@ -189,7 +190,7 @@ To fine-tune the obtained model from 4.2, we run “run_classifier_hao.py” wit
 ```
 FLAGS.bert_config_file = “/path/to/downloaded_BERT_model/bert_config.json”
 FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt"
-FLAGS.init_checkpoint = “/path/to/pre_trained_model_directory” (in 4.2) 
+FLAGS.init_checkpoint = “/path/to/pre_trained_model_directory” (in 4.2.2) 
 FLAGS.data_dir = “/path/to/fine_tuning_data_directory/” (the directory that contains the both fine-tuning training, evaluation, and testing data)
 FLAGS.output_dir = “/path/to/fine_tuned_model_directory/"
 FLAGS.train_batch_size = 64  
@@ -206,10 +207,15 @@ To fine-tune the pre-trained BERT with concept pairs, run `python run_classifier
 After fine-tuning the BERT model as an IS-A relationship classifier, the obtained classifier is saved to the output directory in “/path/to/fine_tuned_model_directory” where the value of “FLAGS.output_dir” is specified. 
 
 ### 4.4.	Testing
-The testing is performed after the model is fine-tuned in 4.3, because we turn on the flag for prediction by setting “FLAGS.do_predict = True.” The fine-tuned model’s prediction is saved in the “test_results.tsv” file in the directory of “/path/to/fine_tuned_model_directory.” Note that we only need to fine-tune the model once, and then use the obtained model to test on different testing data. This can be achieved by update the testing sample, i.e. “test.tsv” file with new testing data, and set the “FLAGS.do_train = False” and “FLAGS.do_eval = False.”
+The testing is performed after the model is fine-tuned in 4.3, because we turn on the flag for prediction by setting `FLAGS.do_predict = True`. \
+The fine-tuned model’s prediction is saved in the “test_results.tsv” file in the directory of “/path/to/fine_tuned_model_directory.” \
+Note that we only need to fine-tune the model once, and then use the obtained model to test on different testing data. \
+This can be achieved by update the testing sample, i.e. “test.tsv” file with new testing data, and set the `FLAGS.do_train = False` and `FLAGS.do_eval = False`.
 
 ### 4.5.	Evaluation
-For each testing concept pair, our model predicts the probabilities that the two concepts should be connected by IS-A and not, respectively. The results are recorded in the “test_results.tsv” file. Use “output/read_results.py” to read the true results and prediction results to evaluate the model’s performance. The metrics used including Precision, Recall, F1 and F2 scores, the micro average and macro average of these metrics are also calculated. 
+For each testing concept pair, our model predicts the probabilities that the two concepts should be connected by IS-A and not, respectively. The results are recorded in the “test_results.tsv” file. \
+Use “output/read_results.py” to read the true results and prediction results to evaluate the model’s performance. Note that you need to specify the directory of the "test.tsv" file and the “test_results.tsv” file inside the read_results.py. \ 
+The metrics used including Precision, Recall, F1 and F2 scores, the micro average and macro average of these metrics are also calculated. 
 
 
 
