@@ -13,6 +13,7 @@ Note here we are still in the scope of pre-training. We do not bind our model wi
 After we obtain the BERT_base_medical model, we can add a classifier/regression layer on top of it, say BERT_base_medical_classifier. Then we can fine-tune this new model with the training data for our task.
 
 ![alt text](TestBert/image/transfer_learning_idea.png)
+
 This repository covers both the pre-training and fine-tuning in the following steps:
 1. Create pre-training data from medical text (we use SNOMED CT text data)
 2. Pre-training the BERT_base (released by Google) model to get BERT_base_sno ('sno' stands for SNOMED)
