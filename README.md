@@ -182,18 +182,25 @@ A short version of the example file for the pre-training data can be found at [t
 ## 4. Execute program
 ### 4.1. Preparation
 * a) Use `mkdir mytest` to create a new directory. And use `cd mytest` to navigate to the new directory.
-* b)After The program repository can be cloned using command: \
-`git clone https://github.com/hl395/Bert_Ontology.git` \
+* b) After The program repository can be cloned using command: \
+`git clone https://github.com/hl395/Bert_Ontology.git` 
+
 ![alt text](TestBert/image/git_clone_1.png)
+
 The hardware compatibility and software requirement should be verified before executing the program.  
 After clone the repository, you can refresh to see the downloaded program `BERT_Ontology`. \
+
 ![alt text](TestBert/image/git_clone_2.png)
+
 * c) Download the pre-trained BERT model, e.g. BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
 https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip \
 * d) Use `mkdir model` to create a new directory called 'model'. Upload your downloaded BERT-Base model to this `model` directory.
+
 ![alt text](TestBert/image/download_bert-base-1.png)
+
 * e) Use `unzip uncased_L-12_H-768_A-12.zip` to unzip the download BERT-base model. \
 The downloaded BERT model should include the “vocab.txt” file and “bert_config.json” and three bert checkpoint files, “bert_model.ckpt.meta”, “bert_model.ckpt.index”, and “bert_model.ckpt.data-00000-of-00001”. 
+
 ![alt text](TestBert/image/download_bert-base-2.png)
 
 
