@@ -3,12 +3,12 @@ Experiment with training BERT for ontology engeneering.
 
 ## General idea of Transfer Learning of BERT
 The idea of transfer learning is use the knowledge learned from one task, and use it for another task. 
-For example, we can take the an "pre-trained" CNN model trained using all the labeled general images (a large dataset) on ImageNet, and "fine-tune" it as a dog/cat classifier with our own training data (small dataset).  
+For example, we can take the an "pre-trained" CNN model trained using all the labeled general images (a large dataset) on ImageNet, and "fine-tune" it as a dog/cat classifier with our own training data (small dataset). \
 Pre-training is normally expensive because the model typically with a large number of parameters need to be trained from scratch with a large size of training data.
 Fine-tuning is normally cheap because we will reuse the pre-trained model and exploit the "knowledge" it already learned, by training it with a small training dataset for our task-of-interest.
 
 However, if we want, we can continue pre-training the model pre-trained by others. For example, the model we used here is BERT, which is pre-trained by Google using Wikipedia and BookCorpus text data, denoted as BERT_base.
-If we want to spice the model with model "medical flavor", we can adopt the same training process Google did but training BERT_base with medical domain text data. We can refer the obtained model as BERT_base_medical. 
+If we want to spice the model with model "medical flavor", we can adopt the same training process Google did but training BERT_base with medical domain text data. We can refer the obtained model as BERT_base_medical. \
 Note here we are still in the scope of pre-training. We do not bind our model with any specific task.
 After we obtain the BERT_base_medical model, we can add a classifier/regression layer on top of it, say BERT_base_medical_classifier. Then we can fine-tune this new model with the training data for our task.
 
