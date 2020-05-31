@@ -34,14 +34,19 @@ To use Kong, you need to SSH to the Kong server. You are free to use other SSH c
 4. Use your NJIT credentials to log in to Kong.
 (To acquire Kong access, email arcs@njit.edu and cc your advisor to grant you Kong access and disk space quota. The initial Kong disk quota is 5G.)
 
-### Install Anaconda (Local)
-To customize your own Python environment, you need to install Anaconda locally instead of using the Kong's global Anaconda.
+### Install Anaconda on Kong (for your own usage)
+Kong use Anaconda to manage Python packages for all users. To customize your own Python environment, you need to install Anaconda locally instead of using the Kong's global Anaconda.
 1. Download [Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh) for linux.
 2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to any of your directory on Kong. 
 3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
-4. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`
-5. Update `~/.bashrc` file to link the 'python' command to your local python. Use `which python` to verify that you are using your local python instead of global python.
-6. Use `conda list` to verify the installed packages.
+![alt text](TestBert/image/Install_Anaconda_1.png)
+4. Use `which conda` to make sure you are using you installed conda instead of Kong global conda.
+5. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`. 
+6. Update `~/.bashrc` file use `vi ~/.bashrc` or `nano ~/.bashrc` to export the 'python' command to your local python. \
+Use `which python` to verify that you are using your local python instead of global python.
+7. Use `conda list` to verify the installed packages. 
+
+
 
 ### Run a Job on Kong
 In contrast to run a python file using `python my_file.py`, you need to submit this job to a job queue on Kong server and Kong will schedule this job when the resource is free.
@@ -94,7 +99,8 @@ This is the default configuration of node437 on Kong.
 * scikit-learn==0.21.2
 * tensorflow-gpu==1.13.1
 
-To install required python modules, run `pip3 install -r requirements.txt`
+To install required python modules, run `pip install -r requirements.txt`. Make sure you check the which pip is used.
+![alt text](TestBert/image/Install_requirements.png)
 
 
 ## 2.	Source code
@@ -105,6 +111,13 @@ https://github.com/google-research/bert
 
 
 ## 3.	Dataset format
+The data format examples for both pre-training and fine-tuning are described below. \
+Note that the text data used for training is plain text delimited by line.
+The task related training and testing data is labeled data, similar to each image with a label of cat or dog, each training instance is labeled as IS-A or non-IS-A.
+The true labels for testing data are also provided for evaluation but not used by our model in its predictions.
+
+You can refer to the format we used here to adjust your own data. 
+
 ### 3.1.	Pre-training data format
 In general pre-training, the corpus are general English text. The input is a plain text file, with one sentence per line. Documents are delimited by empty lines. The output is a set of tf.train.Examples serialized into TFRecord file format. \
 In our task, the pre-training data is concept triples. Each triple contains three concepts, with one concept per line. An empty line is used to separate triples. In cases a focus concept has no parent or child, there are only two concepts in the corresponding triple. 
@@ -168,12 +181,21 @@ A short version of the example file for the pre-training data can be found at [t
 
 ## 4. Execute program
 ### 4.1. Preparation
-* a) The program repository can be cloned using command: \
+* a) Use `mkdir mytest` to create a new directory. And use `cd mytest` to navigate to the new directory.
+* b)After The program repository can be cloned using command: \
 `git clone https://github.com/hl395/Bert_Ontology.git` \
+![alt text](TestBert/image/git_clone_1.png)
 The hardware compatibility and software requirement should be verified before executing the program.  
-* b) Download the pre-trained BERT model, e.g. BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
+After clone the repository, you can refresh to see the downloaded program `BERT_Ontology`. \
+![alt text](TestBert/image/git_clone_2.png)
+* c) Download the pre-trained BERT model, e.g. BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
 https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip \
+* d) Use `mkdir model` to create a new directory called 'model'. Upload your downloaded BERT-Base model to this `model` directory.
+![alt text](TestBert/image/download_bert-base-1.png)
+* e) Use `unzip uncased_L-12_H-768_A-12.zip` to unzip the download BERT-base model. \
 The downloaded BERT model should include the “vocab.txt” file and “bert_config.json” and three bert checkpoint files, “bert_model.ckpt.meta”, “bert_model.ckpt.index”, and “bert_model.ckpt.data-00000-of-00001”. 
+![alt text](TestBert/image/download_bert-base-2.png)
+
 
 ### 4.2. Pre-training
 #### 4.2.1.	Create pre-training data
