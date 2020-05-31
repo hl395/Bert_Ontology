@@ -49,10 +49,10 @@ Use `which python` to verify that you are using your local python instead of glo
 
 
 ### Run a Job on Kong
-In contrast to run a python file using `python my_file.py`, you need to submit this job to a job queue on Kong server and Kong will schedule this job when the resource is free.
+In contrast to run a python file using `python my_file.py` as you normally do on your local machine, you need to compose a script and submit this script as a job to Kong server. Kong will schedule this job when the resource is free.
 You can follow the steps below to submit a job to Kong:
 1. Create your my_file.py and make sure all the required modules/packages are installed by run `conda list`.
-2. Create a my_file.sh script follow the [template]() in the same directory as the python file you want to execute for simplicity. 
+2. Create a my_file.sh script follow the [template](TestBert/templates/my_file.sh) in the same directory as the python file you want to execute for simplicity. 
 3. Change the following parameters in the script accordingly:
 ```angular2
     #$ -N job_name  // set job name
