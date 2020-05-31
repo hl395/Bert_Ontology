@@ -13,7 +13,7 @@ Note here we are still in the scope of pre-training. We do not bind our model wi
 After we obtain the BERT_base_medical model, we can add a classifier/regression layer on top of it, say BERT_base_medical_classifier. Then we can fine-tune this new model with the training data for our task.
 
 ![alt text](TestBert/image/transfer_learning_idea.png)
-In this repository, we covers both the pre-training and fine-tuning in the following steps:
+This repository covers both the pre-training and fine-tuning in the following steps:
 1. Create pre-training data from medical text (we use SNOMED CT text data)
 2. Pre-training the BERT_base (released by Google) model to get BERT_base_sno ('sno' stands for SNOMED)
 3. Prepare the training data testing data
@@ -30,6 +30,8 @@ To use Kong, you need to SSH to the Kong server. You are free to use other SSH c
 2. Download and install MobaXterm (for Windows user only).
 3. SSH to Kong.njit.edu with port 22.
 ![alt text](TestBert/image/SSH_Connection.PNG)
+4. Use your NJIT credentials to log in to Kong.
+(To acquire Kong access, email arcs@njit.edu and cc your advisor to grant you Kong access and disk space quota. The initial Kong disk quota is 5G.)
 
 ### Install Anaconda (Local)
 To customize your own Python environment, you need to install Anaconda locally instead of using the Kong's global Anaconda.
