@@ -42,9 +42,11 @@ Kong use Anaconda to manage Python packages for all users. To customize your own
 ![alt text](TestBert/image/Install_Anaconda_1.png)
 4. Use `which conda` to make sure you are using you installed conda instead of Kong global conda.
 5. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`. 
-6. Update `~/.bashrc` file use `vi ~/.bashrc` or `nano ~/.bashrc` to export the 'python' command to your local python. \
+6. Update `~/.bashrc` file use `vi ~/.bashrc` or `nano ~/.bashrc` to export the 'anaconda' as your default manager of python. \
+Comment out all the setting added by Anaconda installation. Add `export PATH="/home/h/hl395/anaconda3/bin:$PATH"` to the end.
+![alt text](TestBert/image/change_bashrc.PNG)
 Use `which python` to verify that you are using your local python instead of global python.
-7. Use `conda list` to verify the installed packages. 
+![alt text](TestBert/image/check_conda_python.PNG)
 
 
 
@@ -79,6 +81,18 @@ nvidia-smi    // after run the above command, check GPU usage of node 437
 ```
 https://wiki.hpc.arcs.njit.edu/index.php/SGEToSLURM
 ```
+```
+# check all queues
+sinfo -a
+# check all running jobs
+squeue -a
+# show your own job status
+squeue -u *Your_UNI*  
+# log into node 437 
+ssh node437 
+# after run the above command, check GPU usage of node 437 
+nvidia-smi    
+```
 ---
 
 ## 1. Environment configuration:
@@ -99,7 +113,13 @@ This is the default configuration of node437 on Kong.
 * scikit-learn==0.21.2
 * tensorflow-gpu==1.13.1
 
-To install required python modules, run `pip install -r requirements.txt`. Make sure you check the which pip is used.
+
+To install required python modules, first, double check which pip you are using with `which pip`. You should use the pip from your local Anaconda.
+
+![alt text](TestBert/image/which_pip.PNG)
+ 
+Then, run `pip install -r requirements.txt`.  
+
 ![alt text](TestBert/image/Install_requirements.png)
 
 
@@ -220,7 +240,10 @@ The parameters used to control this data creation are specified in the [creating
 ```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To generate pre-training data, run `python creating_pretraining_data.py`.
+
+To generate pre-training data, run the script [kong_creating_pretraining_data.sh](TestBert/kong_create_pretraining_data.sh) with command `qsub kong_create_pretraining_data.sh`.
+Make sure the `creating_pretraining_data.py` and `kong_creating_pretraining_data.sh` are in the same directory and run the submit command from the same directory. If they are not in the same directory, you need to specify the directory. 
+
 After the pre-training data is generated, it is wrote to the output directory named by “tf_examples.tfrecord.” 
  
 #### 4.2.2.	Run pre-training 
@@ -244,8 +267,11 @@ The parameters used to control pre-training are specified in the [run_pretrainin
 ```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To pre-training the downloaded BERT with our own corpus, run `python run_pretraining.py`.
-After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” Note that the obtained new model’s name could vary depends on the number of training steps are used. However, the model still consists of three files and checkpoint file. An example using the parameters above will generate a model with three files as follows: “model.ckpt-100000.meta”, “model.ckpt-100000.index”, and “model.ckpt-100000.data-00000-of-00001” with the same number 100000 in their names as it is the value used as the number of training steps.
+
+To pre-training the downloaded BERT with our own corpus, run the script [kong_run_pretraining.sh](TestBert/kong_run_pretraining.sh) with command `qsub run_pretraining.sh`.
+After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” 
+
+Note that the obtained new model’s name could vary depends on the number of training steps are used. However, the model still consists of three files and checkpoint file. An example using the parameters above will generate a model with three files as follows: “model.ckpt-100000.meta”, “model.ckpt-100000.index”, and “model.ckpt-100000.data-00000-of-00001” with the same number 100000 in their names as it is the value used as the number of training steps.
 
 ### 4.3. Fine-tuning
 To fine-tune the obtained model from 4.2, we run [run_classifier_hao.py](TestBert/run_classifier_hao.py) with specifying the following required parameters:
@@ -265,7 +291,7 @@ FLAGS.task_name = "MRPC"
 ```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To fine-tune the pre-trained BERT with concept pairs, run `python run_classifier_hao.py`.
+To fine-tune the pre-trained BERT with concept pairs, run the script [kong_run_classifier_hao.sh](TestBert/kong_run_classifier_hao.sh) with command `qsub run_classifier_hao.py`.
 After fine-tuning the BERT model as an IS-A relationship classifier, the obtained classifier is saved to the output directory in “/path/to/fine_tuned_model_directory” where the value of “FLAGS.output_dir” is specified. 
 
 ### 4.4. Testing
