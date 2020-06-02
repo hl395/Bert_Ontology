@@ -84,10 +84,14 @@ qlogin -l hostname=node437 -q datasci  // log into node 437
 
 nvidia-smi    // after run the above command, check GPU usage of node 437 
 ```
-### Transfer from Kong to Lochness
+## Transfer from Kong to Lochness
+Though NJIT has migrated from Kong to Lochness, the general idea of job scheduler behind the two systems are the same. You still need to submit your job to a central scheduler to dispatch where to execute your job.
+And the environment setup on Lochness is same as Kong. So it will be very beneficial to understand how to   
+The primary distinction between Kong and Lochness is the commands used SGE v.s. SLURM, which is compared [here](https://wiki.hpc.arcs.njit.edu/index.php/SGEToSLURM).  
 ```
 https://wiki.hpc.arcs.njit.edu/index.php/SGEToSLURM
 ```
+### Useful Commands on Lochness
 ```bash
 # check all queues
 sinfo -a
