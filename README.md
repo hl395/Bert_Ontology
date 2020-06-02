@@ -30,7 +30,9 @@ To use Kong, you need to SSH to the Kong server. You are free to use other SSH c
 1. Go to [njit software download](http://ist.njit.edu/software-available-download/)
 2. Download and install MobaXterm (for Windows user only).
 3. SSH to Kong.njit.edu with port 22.
-![alt text](TestBert/image/SSH_Connection.PNG)
+
+    ![alt text](TestBert/image/SSH_Connection.PNG)
+
 4. Use your NJIT credentials to log in to Kong.
 (To acquire Kong access, email arcs@njit.edu and cc your advisor to grant you Kong access and disk space quota. The initial Kong disk quota is 5G.)
 
@@ -39,13 +41,18 @@ Kong use Anaconda to manage Python packages for all users. To customize your own
 1. Download [Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh) for linux.
 2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to any of your directory on Kong. 
 3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
-![alt text](TestBert/image/Install_Anaconda_1.png)
+
+    ![alt text](TestBert/image/Install_Anaconda_1.png)
+
 4. Use `which conda` to make sure you are using you installed conda instead of Kong global conda.
 5. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`. 
 6. Update `~/.bashrc` file use `vi ~/.bashrc` or `nano ~/.bashrc` to export the 'anaconda' as your default manager of python. \
 Comment out all the setting added by Anaconda installation. Add `export PATH="/home/h/hl395/anaconda3/bin:$PATH"` to the end.
-![alt text](TestBert/image/change_bashrc.PNG)
+
+    ![alt text](TestBert/image/change_bashrc.PNG)
+
 Use `which python` to verify that you are using your local python instead of global python.
+
 ![alt text](TestBert/image/check_conda_python.PNG)
 
 
@@ -205,23 +212,23 @@ A short version of the example file for the pre-training data can be found at [t
 * b) After The program repository can be cloned using command: \
 `git clone https://github.com/hl395/Bert_Ontology.git` 
 
-![alt text](TestBert/image/git_clone_1.png)
+   ![alt text](TestBert/image/git_clone_1.png)
 
 The hardware compatibility and software requirement should be verified before executing the program.  
 After clone the repository, you can refresh to see the downloaded program `BERT_Ontology`. \
 
-![alt text](TestBert/image/git_clone_2.png)
+   ![alt text](TestBert/image/git_clone_2.png)
 
 * c) Download the pre-trained BERT model, e.g. BERT-Base, Uncased: 12-layer, 768-hidden, 12-heads, 110M parameters from: \
 https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip \
 * d) Use `mkdir model` to create a new directory called 'model'. Upload your downloaded BERT-Base model to this `model` directory.
 
-![alt text](TestBert/image/download_bert-base-1.png)
+   ![alt text](TestBert/image/download_bert-base-1.png)
 
 * e) Use `unzip uncased_L-12_H-768_A-12.zip` to unzip the download BERT-base model. \
 The downloaded BERT model should include the “vocab.txt” file and “bert_config.json” and three bert checkpoint files, “bert_model.ckpt.meta”, “bert_model.ckpt.index”, and “bert_model.ckpt.data-00000-of-00001”. 
 
-![alt text](TestBert/image/download_bert-base-2.png)
+   ![alt text](TestBert/image/download_bert-base-2.png)
 
 
 ### 4.2. Pre-training
@@ -252,7 +259,7 @@ The usage of parameters can be referred at the vanilla BERT GitHub page.
     To generate pre-training data, run the script [lochness_creating_pretraining_data.sh](TestBert/lochness_create_pretraining_data.sh) with command `sbatch lochness_create_pretraining_data.sh`.
 Make sure the `lochness_creating_pretraining_data.py` and `creating_pretraining_data.sh` are in the same directory and run the submit command from the same directory. If they are not in the same directory, you need to specify the directory. 
 
-![alt text](TestBert/image/run_create_pretraining_data_lochness.PNG)
+    ![alt text](TestBert/image/run_create_pretraining_data_lochness.PNG)
 
 * b) For execute on Kong (Deprecated)
 
