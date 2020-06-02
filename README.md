@@ -69,8 +69,7 @@ You can follow the steps below to submit a job to Kong:
     #$ -q datasci  // set to run the job on the datasci queue, a queue can have mulitple nodes.
     #$ -node=437   // set to run the job on node437 (which is a node belongs to the datasci queue)
 ```
-   Most importantly, the script should include `python my_file.py` at the end to run your my_file.py.
-
+Most importantly, the script should include `python my_file.py` at the end to run your my_file.py. \
 4. Use `qsub my_file.sh` to submit this job to Kong. You will see a job id assigned to your submission. \
 5. Use `qstat -u *Your_UNI* ` to check your job status. \
 6. After Kong finishes running your job, the console output will be write to a file named with your job id and job name. \
