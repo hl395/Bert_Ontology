@@ -490,12 +490,12 @@ if __name__ == "__main__":
   # flags.mark_flag_as_required("input_file")
   # flags.mark_flag_as_required("bert_config_file")
   # flags.mark_flag_as_required("output_dir")
-  FLAGS.input_file = "tmp/clinical_finding/tf_examples.tfrecord"
-  FLAGS.output_dir = "tmp/clinical_finding/pretraining_output"
+  FLAGS.input_file = "tmp/tf_examples.tfrecord"
+  FLAGS.output_dir = "tmp/pretrained_model/"
   FLAGS.do_train = True
   FLAGS.do_eval = True
-  FLAGS.bert_config_file = "MODEL/small/bert_config.json"
-  FLAGS.init_checkpoint = "MODEL/small/bert_model.ckpt"
+  FLAGS.bert_config_file = "model/bert_config.json"
+  FLAGS.init_checkpoint = "model/bert_model.ckpt"
   FLAGS.train_batch_size = 64   # size variable checked: 16max
   FLAGS.max_seq_length = 128
   FLAGS.max_predictions_per_seq = 20

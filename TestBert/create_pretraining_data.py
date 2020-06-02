@@ -407,9 +407,9 @@ def truncate_seq_pair(tokens_a, tokens_b, max_num_tokens, rng):
 
 
 def main(_):
-  FLAGS.input_file = "INPUT/ontClassTopology_sno_Procedure_bert_out.txt"
-  FLAGS.output_file = "tmp/procedure/tf_examples.tfrecord"
-  FLAGS.vocab_file = "MODEL/small/vocab.txt"
+  FLAGS.input_file = "data/pre_training_data_example.txt"
+  FLAGS.output_file = "tmp/tf_examples.tfrecord"
+  FLAGS.vocab_file = "model/vocab.txt"
   FLAGS.do_lower_case = True
   FLAGS.max_seq_length = 128
   FLAGS.max_predictions_per_seq = 20

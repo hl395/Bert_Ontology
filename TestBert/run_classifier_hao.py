@@ -1019,32 +1019,23 @@ if __name__ == "__main__":
   # flags.mark_flag_as_required("vocab_file")
   # flags.mark_flag_as_required("bert_config_file")
   # flags.mark_flag_as_required("output_dir")
-  FLAGS.data_dir = "glue_data/MYTESTING"
+  FLAGS.data_dir = "data/"
 
-  #################  SMALL  #####################
-  FLAGS.bert_config_file = "MODEL/small/bert_config.json"
-  FLAGS.vocab_file = "MODEL/small/vocab.txt"
+  #################  Config  #####################
+  FLAGS.bert_config_file = "model/bert_config.json"
+  FLAGS.vocab_file = "model/vocab.txt"
 
-  #######  clinical finding  #########
-  # FLAGS.output_dir = "OUTPUT/clinical_finding/fine_tuning/"
-  # FLAGS.output_dir = "OUTPUT/clinical_finding/pre_training/"
-  # FLAGS.init_checkpoint = "MODEL/small/bert_model.ckpt"  # default bert small model
-  # FLAGS.init_checkpoint = "tmp/clinical_finding/pretraining_output/model.ckpt-20000"  # load the pre-trained model
-
-  #######  procedure  #########
-  # FLAGS.output_dir = "OUTPUT/procedure/fine_tuning_3/"
-  FLAGS.output_dir = "OUTPUT/procedure/pre_training_3/"
-  # FLAGS.init_checkpoint = "MODEL/small/bert_model.ckpt"  # default bert small model
-  FLAGS.init_checkpoint = "tmp/procedure/pretraining_output/model.ckpt-10000"  # load the pre-trained model
-
+  #######  directory  #########
+  # FLAGS.init_checkpoint = "MODEL/small/bert_model.ckpt"  # do not load the default bert base model
+  FLAGS.init_checkpoint = "tmp/pretrained_model/model.ckpt-10000"  # load the pre-trained model
+  FLAGS.output_dir = "tmp/fine_tuned_model/"
   FLAGS.train_batch_size = 16  # checked size: 16
   FLAGS.max_seq_length = 128
   FLAGS.num_train_epochs = 6
 
-  FLAGS.do_train = False  # True
-  FLAGS.do_eval = False  # True
-  FLAGS.do_predict = True  # False
+  FLAGS.do_train = True  # True will run the training
+  FLAGS.do_eval = True  # True will run the evaluation
+  FLAGS.do_predict = True  # True will run the testing
   FLAGS.task_name = "MRPC"
-  # FLAGS.task_name = "MRPC_multi"
   FLAGS.use_tpu = False
   tf.app.run()

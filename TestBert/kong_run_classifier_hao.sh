@@ -6,7 +6,6 @@
  
 # -- our name ---
 #$ -N run_bert_classifier_test1
-# bert_procedure_pre_training_simple_50000_10_area
 # Make sure that the .e and .o file arrive in the
 #working directory
 #$ -cwd

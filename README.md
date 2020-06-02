@@ -56,7 +56,7 @@ You can follow the steps below to submit a job to Kong:
 1. Create your my_file.py and make sure all the required modules/packages are installed by run `conda list`.
 2. Create a my_file.sh script follow the [template](TestBert/templates/my_file.sh) in the same directory as the python file you want to execute for simplicity. 
 3. Change the following parameters in the script accordingly:
-```angular2
+```bash
     #$ -N job_name  // set job name
     #$ -q datasci  // set queue to run the job
     #$ -node=437   // set to run the job on node437
@@ -68,7 +68,7 @@ Most importantly, the script should include `python my_file.py` at the end to ru
 
  
 ### Useful Commands on Kong
-```
+```bash
 qstat -f | grep datasci   // show status of all datasic nodes usage
 
 qstat -u *Your_UNI*   // show your own job status
@@ -81,7 +81,7 @@ nvidia-smi    // after run the above command, check GPU usage of node 437
 ```
 https://wiki.hpc.arcs.njit.edu/index.php/SGEToSLURM
 ```
-```
+```bash
 # check all queues
 sinfo -a
 # check all running jobs
@@ -227,7 +227,7 @@ The downloaded BERT model should include the “vocab.txt” file and “bert_co
 ### 4.2. Pre-training
 #### 4.2.1.	Create pre-training data
 The parameters used to control this data creation are specified in the [creating_pretraining_data.py](TestBert/create_pretraining_data.py). The required parameters include:
-  ```
+  ```bash
   FLAGS.input_file = “/path/to/pre-training_data_example.txt”
   FLAGS.output_file = “/path/to/tf_examples.tfrecord” 
   FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt”
@@ -238,42 +238,77 @@ The parameters used to control this data creation are specified in the [creating
   FLAGS.random_seed = 12345
   FLAGS.dupe_factor = 5
 ```
+To run with the example data, manually create a 'tmp' use `mkdir tmp` to save the output file. Note you have to use an existing directory before use it for output dir.
+So the directories listed above should be set as follows:
+```bash
+  FLAGS.input_file = “data/pre-training_data_example.txt”
+  FLAGS.output_file = “tmp/tf_examples.tfrecord” 
+  FLAGS.vocab_file = “model/vocab.txt”
+```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
 
-To generate pre-training data, run the script [kong_creating_pretraining_data.sh](TestBert/kong_create_pretraining_data.sh) with command `qsub kong_create_pretraining_data.sh`.
+* a) For execute on Lochness
+    To generate pre-training data, run the script [lochness_creating_pretraining_data.sh](TestBert/lochness_create_pretraining_data.sh) with command `sbatch lochness_create_pretraining_data.sh`.
+Make sure the `lochness_creating_pretraining_data.py` and `creating_pretraining_data.sh` are in the same directory and run the submit command from the same directory. If they are not in the same directory, you need to specify the directory. 
+
+![alt text](TestBert/image/run_create_pretraining_data_lochness.PNG)
+
+* b) For execute on Kong (Deprecated)
+
+    To generate pre-training data, run the script [kong_creating_pretraining_data.sh](TestBert/kong_create_pretraining_data.sh) with command `qsub kong_create_pretraining_data.sh`.
 Make sure the `creating_pretraining_data.py` and `kong_creating_pretraining_data.sh` are in the same directory and run the submit command from the same directory. If they are not in the same directory, you need to specify the directory. 
 
-After the pre-training data is generated, it is wrote to the output directory named by “tf_examples.tfrecord.” 
+
+After the pre-training data is generated, it is wrote to the output directory named by “tf_examples.tfrecord.” In our case, it will be in `tmp/tf_examples.tfrecord`.
  
 #### 4.2.2.	Run pre-training 
+In this step, we will pre-train the BERT model with our own corpus, i.e., the “tf_examples.tfrecord” generated from 4.2.1. 
 The parameters used to control pre-training are specified in the [run_pretraining.py](TestBert/run_pretraining_data.py). The required parameters include:
-  ```
+  ```bash
   FLAGS.input_file = “/path/to/tf_examples.tfrecord” (from 4.2.1)
   FLAGS.output_dir = “/path/to/pre_trained_model_directory” 
   FLAGS.vocab_file = “/path/to/downloaded_BERT_model/vocab.txt” (the same as in 4.2.1)
-  FLAGS.do_train = True (perform training)
-  FLAGS.do_eval = True (perform evaluation/validation)
   FLAGS.bert_config_file = “/path/to/downloaded_BERT_model/bert_config.json”
   FLAGS.init_checkpoint = “/path/to/downloaded_BERT_model/bert_model.ckpt”
+  FLAGS.do_train = True  ## perform training
+  FLAGS.do_eval = True   ## perform evaluation/validation
   FLAGS.train_batch_size = 64   
   FLAGS.max_seq_length = 128
   FLAGS.max_predictions_per_seq = 20
-  # FLAGS.num_train_steps = 15000
   FLAGS.num_train_steps = 100000
   FLAGS.num_warmup_steps = 5000
   FLAGS.save_checkpoints_steps = 20000
   FLAGS.learning_rate = 2e-5
 ```
+In our case, manually create a 'pretrained_model' folder in the 'tmp' directory with `mkdir pretrained_model` to save the output pre-trained model. 
+So the directories listed above should be set as follows:
+```
+  FLAGS.input_file = “tmp/tf_examples.tfrecord” (from 4.2.1)
+  FLAGS.output_dir = “tmp/pretrained_model/” 
+  FLAGS.vocab_file = “model/vocab.txt” (the same as in 4.2.1)
+  FLAGS.bert_config_file = “model/bert_config.json”
+  FLAGS.init_checkpoint = “model/bert_model.ckpt”
+```
 
 The usage of parameters can be referred at the vanilla BERT GitHub page.
 
-To pre-training the downloaded BERT with our own corpus, run the script [kong_run_pretraining.sh](TestBert/kong_run_pretraining.sh) with command `qsub run_pretraining.sh`.
-After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” 
+* a) For execute on Lochness 
+
+    To pre-training the downloaded BERT with our own corpus, run the script [lochness_run_pretraining.sh](TestBert/lochness_run_pretraining.sh) with command `sbatch lochness_run_pretraining.sh`.
+
+    ![alt text](TestBert/image/run_pretraining_lochness.PNG)
+
+* b) For execute on Kong (Deprecated)
+
+    To pre-training the downloaded BERT with our own corpus, run the script [kong_run_pretraining.sh](TestBert/kong_run_pretraining.sh) with command `qsub kong_run_pretraining.sh`.
+
+After pre-training the BERT model, the obtained new model is saved to the output directory in “/path/to/pre_trained_model_directory” where the value of “FLAGS.output_dir.” In our case, it will be `/tmp/pretrained_model/`.
 
 Note that the obtained new model’s name could vary depends on the number of training steps are used. However, the model still consists of three files and checkpoint file. An example using the parameters above will generate a model with three files as follows: “model.ckpt-100000.meta”, “model.ckpt-100000.index”, and “model.ckpt-100000.data-00000-of-00001” with the same number 100000 in their names as it is the value used as the number of training steps.
 
 ### 4.3. Fine-tuning
+In this step, we will fine-tuned the previously pre-trained model (from 4.2.2) into a classifier.
 To fine-tune the obtained model from 4.2, we run [run_classifier_hao.py](TestBert/run_classifier_hao.py) with specifying the following required parameters:
 ```
 FLAGS.bert_config_file = “/path/to/downloaded_BERT_model/bert_config.json”
@@ -290,15 +325,51 @@ FLAGS.do_predict = True (perform prediction)
 FLAGS.task_name = "MRPC" 
 ```
 
+In our case, manually create a 'fine_tuned_model' folder in the 'tmp' directory with `mkdir fine_tuned_model` to save the output fine-tuned model (the final classifier). 
+So the directories listed above should be set as follows:
+```
+FLAGS.bert_config_file = “model/bert_config.json”
+FLAGS.vocab_file = “model/vocab.txt"
+FLAGS.init_checkpoint = “tmp/pretrained_model/” ## load the pre-trained model in 4.2.2 
+FLAGS.data_dir = “data/”  ## the directory that contains the both fine-tuning training (train.tsv), evaluation (dev.tsv), and testing data (test.tsv)
+FLAGS.output_dir = “/tmp/fine_tuned_model/"
+```
+
 The usage of parameters can be referred at the vanilla BERT GitHub page.
-To fine-tune the pre-trained BERT with concept pairs, run the script [kong_run_classifier_hao.sh](TestBert/kong_run_classifier_hao.sh) with command `qsub run_classifier_hao.py`.
+
+* a) For execute on Lochness
+
+    To fine-tune the pre-trained BERT with concept pairs, run the script [lochness_run_classifier_hao.sh](TestBert/lochness_run_classifier_hao.sh) with command `sbatch lochness_run_classifier_hao.sh`.
+
+    ![alt text](TestBert/image/run_classifier_lochness.PNG)
+
+* b) For execute on Kong (Deprecated)
+
+    To fine-tune the pre-trained BERT with concept pairs, run the script [kong_run_classifier_hao.sh](TestBert/kong_run_classifier_hao.sh) with command `qsub kong_run_classifier_hao.sh`.
+
 After fine-tuning the BERT model as an IS-A relationship classifier, the obtained classifier is saved to the output directory in “/path/to/fine_tuned_model_directory” where the value of “FLAGS.output_dir” is specified. 
+In our case, the output dir is `tmp/fine_tuned_model/`.
 
 ### 4.4. Testing
 The testing is performed after the model is fine-tuned in 4.3, because we turn on the flag for prediction by setting `FLAGS.do_predict = True`. \
 The fine-tuned model’s prediction is saved in the “test_results.tsv” file in the directory of “/path/to/fine_tuned_model_directory.” \
 Note that we only need to fine-tune the model once, and then use the obtained model to test on different testing data. \
 This can be achieved by update the testing sample, i.e. “test.tsv” file with new testing data, and set the `FLAGS.do_train = False` and `FLAGS.do_eval = False`.
+For example, you can change the parameters below to just run the testing.
+```
+FLAGS.bert_config_file = "model/bert_config.json"
+FLAGS.vocab_file = "model/vocab.txt"
+FLAGS.init_checkpoint = "tmp/pretrained_model/" (load the pre-trained model in 4.2.2) 
+FLAGS.data_dir = "data/"  ## the directory that contains the both fine-tuning training (train.tsv), evaluation (dev.tsv), and testing data (test.tsv))
+FLAGS.output_dir = "/tmp/fine_tuned_model/"
+FLAGS.train_batch_size = 64  
+FLAGS.max_seq_length = 128
+FLAGS.num_train_epochs = 3
+FLAGS.do_train = False ## skip training
+FLAGS.do_eval = False  ## skip evaluation
+FLAGS.do_predict = True  ## perform prediction only
+FLAGS.task_name = "MRPC" 
+```
 
 ### 4.5. Evaluation
 For each testing concept pair, our model predicts the probabilities that the two concepts should be connected by IS-A and not, respectively. The results are recorded in the “test_results.tsv” file. \
