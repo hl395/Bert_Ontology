@@ -1,7 +1,7 @@
 # Bert_Ontology
 Experiment with training BERT for ontology engeneering.
 
-## General idea of Transfer Learning of BERT
+## General idea of Transfer Learning with Google BERT
 The idea of transfer learning is use the knowledge learned from one task, and use it for another task. 
 For example, we can take the an "pre-trained" CNN model trained using all the labeled general images (a large dataset) on ImageNet, and "fine-tune" it as a dog/cat classifier with our own training data (small dataset). \
 Pre-training is normally expensive because the model typically with a large number of parameters need to be trained from scratch with a large size of training data.
