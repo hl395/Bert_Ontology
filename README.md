@@ -40,9 +40,10 @@ To use Kong, you need to SSH to the Kong server. You are free to use other SSH c
 Kong uses Anaconda to manage Python packages for all users. To customize your own Python environment, you need to install Anaconda locally instead of using Kong's global Anaconda.
 1. Download [Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh) for linux.
 2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to any of your directories on Kong. 
-3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
-
     ![alt text](TestBert/image/Install_Anaconda_1.png) 
+3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
+    In the same directory where you upload Anaconda, run "bash  Anaconda3-2020.02-Linux-x86_64.sh" command to install it. (This is an installation/execution command on Linux.)
+    ![alt text](TestBert/image/Install_Anaconda_2.png) 
 
 4. Use `which conda` to make sure you are using your installed conda instead of Kong global conda.
 5. (Optional) Downgrade Python from 3.7 to 3.6 `conda install python=3.6`. 
