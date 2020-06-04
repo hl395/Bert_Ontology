@@ -2,23 +2,23 @@
 Experiment with training BERT for ontology engeneering.
 
 ## General idea of Transfer Learning with Google BERT
-The idea of transfer learning is use the knowledge learned from one task, and use it for another task. 
-For example, we can take the an "pre-trained" CNN model trained using all the labeled general images (a large dataset) on ImageNet, and "fine-tune" it as a dog/cat classifier with our own training data (small dataset). \
-Pre-training is normally expensive because the model typically with a large number of parameters need to be trained from scratch with a large size of training data.
-Fine-tuning is normally cheap because we will reuse the pre-trained model and exploit the "knowledge" it already learned, by training it with a small training dataset for our task-of-interest.
+The idea of transfer learning is to use the knowledge learned from one task, and use it for another task. 
+For example, we can take the a "pre-trained" CNN model trained using all the labeled general images (a large dataset) on ImageNet, and "fine-tune" it as a dog/cat classifier with our own training data (small dataset). \
+Pre-training is normally expensive, because the model typically has a large number of parameters that need to be trained from scratch with a large size training data.
+Fine-tuning is normally cheap, because we will reuse the pre-trained model and exploit the "knowledge" it already learned, by training it with a small training dataset for our task-of-interest.
 
 However, if we want, we can continue pre-training the model pre-trained by others. For example, the model we used here is BERT, which is pre-trained by Google using Wikipedia and BookCorpus text data, denoted as BERT_base.
-If we want to spice the model with model "medical flavor", we can adopt the same training process Google did but training BERT_base with medical domain text data. We can refer the obtained model as BERT_base_medical. \
-Note here we are still in the scope of pre-training. We do not bind our model with any specific task.
+If we want to give the model a "medical flavor," we can adopt the same training process Google did, but training BERT_base with medical domain text data. We can refer to the obtained model as BERT_base_medical. \
+Note that here we are still in the scope of pre-training. We do not bind our model with any specific task.
 After we obtain the BERT_base_medical model, we can add a classifier/regression layer on top of it, say BERT_base_medical_classifier. Then we can fine-tune this new model with the training data for our task.
 
 ![alt text](TestBert/image/transfer_learning_idea.png)
 
 This repository covers both the pre-training and fine-tuning in the following steps:
-1. Create pre-training data from medical text (we use SNOMED CT text data)
-2. Pre-training the BERT_base (released by Google) model to get BERT_base_sno ('sno' stands for SNOMED)
-3. Prepare the training data testing data
-4. Fine-tuning the BERT_base_sno model with training data to get BERT_base_sno_clf ('clf' stands for classifier)
+1. Create pre-training data from medical text (we used SNOMED CT text data)
+2. Pre-train the BERT_base (released by Google) model to get BERT_base_sno ('sno' stands for SNOMED)
+3. Prepare the training data and testing data
+4. Fine-tune the BERT_base_sno model with training data to get BERT_base_sno_clf ('clf' stands for classifier)
 5. Test the fine-tuned BERT_base_sno_clf model with testing data
 6. Evaluate the model's performance  
 
@@ -26,9 +26,9 @@ This repository covers both the pre-training and fine-tuning in the following st
 ---
 ## Prerequisite: Kong Server 
 ### SSH to Kong Server
-To use Kong, you need to SSH to the Kong server. You are free to use other SSH client to connect to Kong. Here is an example of using MobaXterm for Windows users. 
+To use Kong, you need to SSH to the Kong server. You are free to use other SSH clients to connect to Kong. Here is an example of using MobaXterm for Windows users. 
 1. Go to [njit software download](http://ist.njit.edu/software-available-download/)
-2. Download and install MobaXterm (for Windows user only).
+2. Download and install MobaXterm (for Windows users only).
 3. SSH to Kong.njit.edu with port 22.
 
     ![alt text](TestBert/image/SSH_Connection.PNG)
@@ -37,17 +37,17 @@ To use Kong, you need to SSH to the Kong server. You are free to use other SSH c
 (To acquire Kong access, email arcs@njit.edu and cc your advisor to grant you Kong access and disk space quota. The initial Kong disk quota is 5G.)
 
 ### Install Anaconda on Kong (for your own usage)
-Kong use Anaconda to manage Python packages for all users. To customize your own Python environment, you need to install Anaconda locally instead of using the Kong's global Anaconda.
+Kong uses Anaconda to manage Python packages for all users. To customize your own Python environment, you need to install Anaconda locally instead of using Kong's global Anaconda.
 1. Download [Anaconda](https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh) for linux.
-2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to any of your directory on Kong. 
+2. Upload the Anaconda3-2020.02-Linux-x86_64.sh to any of your directories on Kong. 
 3. Follow the instructions [here](https://docs.anaconda.com/anaconda/install/linux/) to install Anaconda.
 
-    ![alt text](TestBert/image/Install_Anaconda_1.png)
+    ![alt text](TestBert/image/Install_Anaconda_1.png) 
 
-4. Use `which conda` to make sure you are using you installed conda instead of Kong global conda.
-5. (Optional) Downgrade python from 3.7 to 3.6 `conda install python=3.6`. 
-6. Update `~/.bashrc` file use `vi ~/.bashrc` or `nano ~/.bashrc` to export the 'anaconda' as your default manager of python. \
-Comment out all the setting added by Anaconda installation. Add `export PATH="/home/h/hl395/anaconda3/bin:$PATH"` to the end.
+4. Use `which conda` to make sure you are using your installed conda instead of Kong global conda.
+5. (Optional) Downgrade Python from 3.7 to 3.6 `conda install python=3.6`. 
+6. Update the `~/.bashrc` file by using `vi ~/.bashrc` or `nano ~/.bashrc` to export 'anaconda' as your default manager of Python. \
+Comment out all the settings added by the Anaconda installation with `#`. Add `export PATH="/home/h/hl395/anaconda3/bin:$PATH"` to the end.
 
     ![alt text](TestBert/image/change_bashrc.PNG)
 
